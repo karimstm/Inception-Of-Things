@@ -1,0 +1,24 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: k3sapps
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`app1.com`)
+      kind: Rule
+      services:
+        - name: app-one
+          port: 80
+    - match: Host(`app2.com`)
+      kind: Rule
+      services:
+        - name: app-two
+          port: 80
+    - match: Host(`app3.com`)
+      kind: Rule
+      services:
+        - name: app-three
+          port: 80

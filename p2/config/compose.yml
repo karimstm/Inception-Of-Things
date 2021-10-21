@@ -1,0 +1,17 @@
+version: "1"
+
+common:
+  box: "centos/8"
+  box_url: "https://app.vagrantup.com/centos/boxes/8/versions/2011.0/providers/virtualbox.box"
+  box_check_update: false
+
+services:
+  master:
+    hostname: "amoutikS"
+    network:
+      type: "private_network"
+      ip: "192.168.42.110"
+    provider:
+      gui: false
+      memory: "1024"
+      cpus: 1
