@@ -6,6 +6,7 @@ curl -sfL https://get.k3s.io | sh -
 
 echo "create k3s alias"
 echo 'alias k="k3s kubectl"' >> /home/vagrant/.bashrc
+echo 'alias kubectl="k3s kubectl"' >> /home/vagrant/.bashrc
 echo "server installed"
 
 echo "Creating 3 deployments...."
