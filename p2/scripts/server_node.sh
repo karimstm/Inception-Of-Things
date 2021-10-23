@@ -11,7 +11,7 @@ source /home/vagrant/.bashrc
 echo "server installed"
 
 echo "waiting for traefik crd to download"
-/usr/local/bin/kubectl wait --for condition=complete --timeout=60s job/helm-install-traefik-crd -n kube-system
+/usr/local/bin/kubectl wait --for condition=complete --timeout=-1s job/helm-install-traefik-crd -n kube-system
 
 echo "Creating 3 deployments...."
 /usr/local/bin/kubectl apply -f /vagrant/config/k3s/deployments/
