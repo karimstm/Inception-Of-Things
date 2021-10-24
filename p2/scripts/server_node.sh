@@ -7,9 +7,11 @@ curl -sfL https://get.k3s.io | sh -
 echo "create k3s alias"
 echo 'alias k="k3s kubectl"' >> /home/vagrant/.bashrc
 echo 'alias kubectl="k3s kubectl"' >> /home/vagrant/.bashrc
-echo "source <(k3d completion bash)" >> /home/vagrant/.bashrc
 source /home/vagrant/.bashrc
 echo "server installed"
+
+echo "waiting for traefik crd to download"
+/usr/local/bin/kubectl wait --for condition=complete --timeout=-1s job/helm-install-traefik-crd -n kube-system
 
 echo "Creating 3 deployments...."
 /usr/local/bin/kubectl apply -f /vagrant/config/k3s/deployments/
