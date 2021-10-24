@@ -5,7 +5,8 @@ metadata:
   namespace: argocd
 spec:
   entryPoints:
-    - websecure #should be web to ignore https
+    - websecure
+    - web
   routes:
     - kind: Rule
       match: Host(`argocd.example.com`)

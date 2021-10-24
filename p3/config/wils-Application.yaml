@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: will-playground
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/karimstm/iot-temp-deployment.git
+    targetRevision: HEAD
+    path: k3s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
