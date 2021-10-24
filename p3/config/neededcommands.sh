@@ -1,22 +1,31 @@
-# install docker
-sudo yum install -y yum-utils
+#!/bin/bash
 
-sudo yum-config-manager \
+echo "roming uneeded packages..."
+yum -y remove podman
+yum -y remove containers-common
+
+
+# install docker
+echo "Installing docker..."
+yum install -y yum-utils
+
+yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 
-sudo yum install -y docker-ce docker-ce-cli containerd.io
+yum install -y docker-ce docker-ce-cli containerd.io
 
 # start docker
-sudo systemctl start docker
+echo "starting docker..."
+systemctl start docker
 
-#add user to docker group
-sudo usermod -aG docker ${USER}
+# #add user to docker group
+# usermod -aG docker ${USER}
 
 # we might need to logout and login again
 
-
 #install k3d
+echo "instaling k3d wrapper..."
 curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 # k3d cluster create dev-cluster --port 8888:8888@loadbalancer 8080:80@loadbalancer --port 8443:443@loadbalancer
 k3d cluster create --config k3d.yml
