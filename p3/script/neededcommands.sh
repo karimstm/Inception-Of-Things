@@ -60,6 +60,11 @@ kubectl apply -n argocd -f ../config/ingress.yaml
 
 # we need to wait for argo to be ready
 
+kubectl rollout status deployment argocd-server -n argocd
+kubectl rollout status deployment argocd-redis -n argocd
+kubectl rollout status deployment argocd-repo-server -n argocd
+kubectl rollout status deployment argocd-dex-server -n argocd
+
 kubectl apply -n argocd -f ../config/wils-Project.yaml
 kubectl apply -n argocd -f ../config/wils-application.yaml
 
