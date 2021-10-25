@@ -1,14 +1,16 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: argocd-server
-  namespace: argocd
+  name: argocd-ingress
+  labels:
+    app: argocd
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  entryPoints:
-  - web
-  routes:
-  - kind: Rule
-    match: PathPrefix(`/`)
-    services:
-    - name: argocd-server
-      port: 8080
+  rules:
+  - http:
+      paths:
+      - path: /argocd
+        backend:
+          serviceName: argocd-server
+          servicePort: 80
