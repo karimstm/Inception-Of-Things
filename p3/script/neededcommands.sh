@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-sudo systemctl disable firewalld --now
-
 echo "roming uneeded packages..."
 yum -y remove podman
 yum -y remove containers-common
