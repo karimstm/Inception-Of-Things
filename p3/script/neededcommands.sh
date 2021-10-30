@@ -55,6 +55,10 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >>~/.bashrc
 
+
+kubectl -n kube-system wait --for=condition=complete --timeout=-1s jobs/helm-install-traefik-crd
+
+
 #set up argo
 kubectl create namespace argocd
 kubectl create namespace dev
