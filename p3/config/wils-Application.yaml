@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/karimstm/iot-temp-deployment.git
+    repoURL: https://github.com/karimstm/amoutik.git
     targetRevision: HEAD
     path: k3s
   destination:
