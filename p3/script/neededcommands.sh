@@ -4,7 +4,6 @@ echo "roming uneeded packages..."
 yum -y remove podman
 yum -y remove containers-common
 
-
 # install docker
 echo "Installing docker..."
 yum install -y yum-utils
