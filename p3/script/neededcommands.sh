@@ -56,27 +56,34 @@ echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >>~/.bashrc
 
 
+echo "waiting for treafik jobs to finish"
 kubectl -n kube-system wait --for=condition=complete --timeout=-1s jobs/helm-install-traefik-crd
+kubectl -n kube-system wait --for=condition=complete --timeout=-1s jobs/helm-install-traefik
 
 
+echo "creating namespaces..."
 #set up argo
 kubectl create namespace argocd
 kubectl create namespace dev
 kubectl apply -n argocd -f ../config/install.yaml
 
 
+echo "setup argocd ingress"
 # Set up ingress
 kubectl apply -n argocd -f ../config/ingress.yaml
 
 # we need to wait for argo to be ready
 
+echo "waiting for server to load"
 kubectl rollout status deployment argocd-server -n argocd
 kubectl rollout status deployment argocd-redis -n argocd
 kubectl rollout status deployment argocd-repo-server -n argocd
 kubectl rollout status deployment argocd-dex-server -n argocd
 
+echo "creating app config file for wils"
 kubectl apply -n argocd -f ../config/wils-Application.yaml
 
+echo "adming password for argocd is..."
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
 
