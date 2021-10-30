@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+sudo systemctl disable firewalld --now
+
 echo "roming uneeded packages..."
 yum -y remove podman
 yum -y remove containers-common
@@ -17,6 +20,10 @@ yum install -y docker-ce docker-ce-cli containerd.io
 
 # start docker
 echo "starting docker..."
+
+systemctl enable docker.service
+systemctl enable containerd.service
+
 systemctl start docker
 
 # #add user to docker group
@@ -43,11 +50,10 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 
 yum install -y kubectl
-
-
-# we must for the jobs to finish
-kubectl -n kube-system wait --for=condition=complete --timeout=-1s jobs/helm-install-traefik-crd
-
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+kubectl completion bash >/etc/bash_completion.d/kubectl
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl k' >>~/.bashrc
 
 #set up argo
 kubectl create namespace argocd
@@ -65,9 +71,9 @@ kubectl rollout status deployment argocd-redis -n argocd
 kubectl rollout status deployment argocd-repo-server -n argocd
 kubectl rollout status deployment argocd-dex-server -n argocd
 
-kubectl apply -n argocd -f ../config/wils-Project.yaml
-kubectl apply -n argocd -f ../config/wils-application.yaml
+kubectl apply -n argocd -f ../config/wils-Application.yaml
 
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
 
 #this will help
